@@ -13,6 +13,7 @@ docker_service_start+=(
 
 
 if [ "${USER:-}" = "thobson2" ]; then
-    server_bind=127.242.160.24  # $(,address sunrise +%B)
-    server_port=57872  # $(,address sunrise +%P)
+    :
+    # server_bind=127.242.160.24  # $(,address sunrise +%B)
+    # server_port=57872  # $(,address sunrise +%P)
 fi
