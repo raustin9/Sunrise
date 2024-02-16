@@ -4,6 +4,9 @@
 /data
 *.png
 /tmp
+/tmp*
 *.egg-info
 __pycache__
 *.bsp
+preprocess/target/*
+!preprocess/target/.keep
