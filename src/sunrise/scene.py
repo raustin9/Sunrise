@@ -246,6 +246,27 @@ def Render(
         defer(lib.ospRelease, index)
 
         return index
+    
+    # def Earth(
+    #     *,
+    #     terrain: lib.OSPGeometry,
+    #     colormaps: list[lib.OSPMaterial],
+    #     observation: lib.OSPData,
+    # ):
+    #     colormaps = Data(colormaps, type=lib.OSP_MATERIAL)
+    #     defer(lib.ospRelease, colormaps)
+
+    #     geometric_models = []
+
+    #     geometric_models.append(
+    #         (model := lib.ospNewGeometricModel(None))
+    #     )
+    #     defer(lib.ospRelease, model, )
+    #     lib.ospSetObject(model, b'geometry', terrain)
+    #     lib.ospSetObject(model, b'material', colormaps)
+    #     lib.ospSetObject(model, b'index', observation)
+    #     lib.ospCommit(model)
+
 
     def Park(
         *,
@@ -458,6 +479,17 @@ def Render(
             ],
             observation=Observation(path=path / 'observation'),
         )),
+        
+    )
+
+    instances.append(
+        (earth := Park(
+            terrain=Terrain(path=path / 'earth'),
+            colormaps=[
+                Colormap(path=path / 'earth'),
+            ],
+            observation=None
+        ))
     )
 
     instances.append(
@@ -504,7 +536,7 @@ def Render(
     defer(lib.ospRelease, renderer)
 
     # lib.ospSetInt(renderer, b'pixelSamples', 32)
-    lib.ospSetInt(renderer, b'pixelSamples', 3)
+    lib.ospSetInt(renderer, b'pixelSamples', 5)
     # lib.ospSetFloat(renderer, b'aoIntensity', 0)
     # lib.ospSetInt(renderer, b'aoSamples', 32)
     lib.ospCommit(renderer)
@@ -519,8 +551,8 @@ def Render(
         1.0,
     ))
     lib.ospSetVec4f(camera, b'backgroundColor', *(
-        # 0.0, 1.0, 0.5, 1.0,
-        0.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.5, 1.0,
+        # 0.0, 0.0, 0.0, 0.0,
     ))
     lib.ospCommit(camera)
 
@@ -579,6 +611,7 @@ def Render(
         instances = []
         instances.extend([
             park,
+            earth,
             ambient,
             distant,
             sunlight,
